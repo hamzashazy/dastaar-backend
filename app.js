@@ -1,3 +1,4 @@
+
 const express = require('express')
 const app = express();
 const port = process.env.PORT;
@@ -110,6 +111,10 @@ app.post('/photos/upload', upload.array('photos', 12), function (req, res, next)
   }
 })
 
-app.listen((process.env.PORT || 8081), () => {
-  console.log(`Example app listening on port ${process.env.PORT}!`)
-});
+if (require.main === module) {
+  app.listen((process.env.PORT || 8081), () => {
+    console.log(`Example app listening on port ${process.env.PORT}!`)
+  });
+}
+
+module.exports = app;
