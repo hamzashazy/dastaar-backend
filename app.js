@@ -41,7 +41,7 @@ const { getAllOrders, changeStatusOfOrder } = require('./controllers/admin/order
 const { orders } = require('./controllers/user/orders');
 const { addCategory, getCategories, updateCategory, deleteCategory } = require('./controllers/categories/category');
 const { addToWishlist, wishlist, removeFromWishlist } = require('./controllers/user/wishlist');
-const mongoose = require("./config/database")()
+// const mongoose = require("./config/database")()
 
 
 app.get('/', (req, res) => {
@@ -112,8 +112,14 @@ app.post('/photos/upload', upload.array('photos', 12), function (req, res, next)
 })
 
 if (require.main === module) {
-  app.listen((process.env.PORT || 8081), () => {
-    console.log(`Example app listening on port ${process.env.PORT}!`)
+  const connectDB = require("./config/database");
+  connectDB().then(() => {
+    app.listen((process.env.PORT || 8081), () => {
+      console.log(`Example app listening on port ${process.env.PORT}!`)
+    });
+  }).catch(err => {
+    console.error("Failed to connect to DB", err);
+    process.exit(1);
   });
 }
 
